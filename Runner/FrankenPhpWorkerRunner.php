@@ -25,8 +25,8 @@ use Symfony\Component\Runtime\RunnerInterface;
 class FrankenPhpWorkerRunner implements RunnerInterface
 {
     public function __construct(
-        private HttpKernelInterface|Response $application,
-        private int $loopMax,
+        private readonly HttpKernelInterface|Response $application,
+        private readonly int $loopMax,
     ) {
     }
 
@@ -35,7 +35,7 @@ class FrankenPhpWorkerRunner implements RunnerInterface
         // Prevent worker script termination when a client connection is interrupted
         ignore_user_abort(true);
 
-        $server = array_filter($_SERVER, static fn (string $key) => !str_starts_with($key, 'HTTP_'), \ARRAY_FILTER_USE_KEY);
+        $server = array_filter($_SERVER, static fn (string $key): bool => !str_starts_with($key, 'HTTP_'), \ARRAY_FILTER_USE_KEY);
         $server['APP_RUNTIME_MODE'] = 'web=1&worker=1';
 
         $handler = function () use ($server, &$sfRequest, &$sfResponse): void {

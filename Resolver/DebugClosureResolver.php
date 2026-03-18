@@ -21,7 +21,7 @@ class DebugClosureResolver extends ClosureResolver
         [$closure, $arguments] = parent::resolve();
 
         return [
-            static function (...$arguments) use ($closure) {
+            static function (...$arguments) use ($closure): ?object {
                 if (\is_object($app = $closure(...$arguments)) || null === $app) {
                     return $app;
                 }

@@ -28,7 +28,6 @@ use Symfony\Component\Runtime\SymfonyRuntime;
 class ComposerPlugin implements PluginInterface, EventSubscriberInterface
 {
     private Composer $composer;
-    private IOInterface $io;
 
     private static bool $activated = false;
 
@@ -36,7 +35,6 @@ class ComposerPlugin implements PluginInterface, EventSubscriberInterface
     {
         self::$activated = true;
         $this->composer = $composer;
-        $this->io = $io;
     }
 
     public function deactivate(Composer $composer, IOInterface $io): void
